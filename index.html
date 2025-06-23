@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compound Section Calculator</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="sail.png" type="image/png">
+</head>
+
+<body>
+    <header class="main-header">
+        <h1>Built-Up Section Calculator</h1>
+        <p class="subtitle">With IS:808 standard sections</p>
+    </header>
+	
+    <main class="calculator-container">
+        <button class="back-button hidden" id="backButton">← Back to Selection</button>
+        <div class="cards-container" id="cardsContainer">
+		
+            <div class="section-card" data-type="isection">
+                <img src="images/i-section.png" alt="I-Section">
+                <h3>I-Section</h3>
+            </div>
+            <div class="section-card" data-type="channel">
+                <img src="images/channel.png" alt="Channel">
+                <h3>Channel</h3>
+            </div>
+            <div class="section-card" data-type="angle">
+                <img src="images/angle.png" alt="Angle">
+                <h3>Angle</h3>
+            </div>
+        </div>
+
+        <div class="input-container hidden" id="inputContainer">
+            <div class="section-title-container">
+                <h2 id="sectionTitle">Section Properties</h2>
+				<button id="resetBtn" class="reset-button">Reset</button>
+            </div>
+
+            <!-- Common inputs for all sections -->
+            <div class="standard-selector">
+                <!-- Angle-specific inputs -->
+                <div id="angleSpecificOptions" class="hidden">
+                    <!-- Center plate inputs (always visible) -->
+                    <div id="centerPlateInputs" class="reinforcement-inputs">
+                        <h4>Center Plate</h4>
+                        <div class="input-group">
+                            <label for="centerPlateWidth">Width (mm)</label>
+                            <input type="text" id="centerPlateWidth" class="dim-input">
+                        </div>
+                        <div class="input-group">
+                            <label for="centerPlateThickness">Thickness (mm)</label>
+                            <input type="text" id="centerPlateThickness" class="dim-input">
+                        </div>
+                    </div>
+
+                    <!-- Top angles section -->
+                    <div class="angle-section">
+                        <h4>Top Angles</h4>
+                        <div class="dropdown-group">
+                            <select id="topCategoryDropdown" class="dropdown">
+                                <option value="">Select Category</option>
+                            </select>
+                            <select id="topDesignationDropdown" class="dropdown" disabled>
+                                <option value="">Select Designation</option>
+                            </select>
+							
+							<div class="rotation-control">
+								<button class="rotate-button">Rotate Angle</button>
+								<span>Attached leg: <span class="attached-leg-display">Leg 1</span></span>
+							</div>
+                        </div>
+                        <label class="non-standard-check">
+                            <input type="checkbox" id="topManualCheckbox"> Manual input for top angles
+                        </label>
+
+                        <!-- Manual inputs for top angles -->
+                        <div id="topManualInputs" class="manual-inputs hidden">
+                            <div class="input-group">
+                                <label for="topLeg1">Leg 1 (mm)</label>
+                                <input type="text" id="topLeg1" class="dim-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="topLeg2">Leg 2 (mm)</label>
+                                <input type="text" id="topLeg2" class="dim-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="topThickness">Thickness (t, mm)</label>
+                                <input type="text" id="topThickness" class="dim-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="reinforcement-check">
+                        <input type="checkbox" id="differentAnglesCheckbox"> Top and bottom angles are different
+                    </label>
+
+                    <!-- Bottom angles section (only shown when different angles is checked) -->
+                    <div id="bottomAngleSection" class="angle-section hidden">
+                        <h4>Bottom Angles</h4>
+                        <div class="dropdown-group">
+                            <select id="bottomCategoryDropdown" class="dropdown">
+                                <option value="">Select Category</option>
+                            </select>
+                            <select id="bottomDesignationDropdown" class="dropdown" disabled>
+                                <option value="">Select Designation</option>
+                            </select>
+                        </div>
+						<div class="rotation-control">
+    <button class="rotate-button">Rotate Angle</button>
+    <span>Attached leg: <span class="attached-leg-display">Leg 1</span></span>
+</div>
+
+                        <label class="non-standard-check">
+                            <input type="checkbox" id="bottomManualCheckbox"> Manual input for bottom angles
+                        </label>
+
+                        <!-- Manual inputs for bottom angles -->
+                        <div id="bottomManualInputs" class="manual-inputs hidden">
+                            <div class="input-group">
+                                <label for="bottomLeg1">Leg 1 (mm)</label>
+                                <input type="text" id="bottomLeg1" class="dim-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="bottomLeg2">Leg 2 (mm)</label>
+                                <input type="text" id="bottomLeg2" class="dim-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="bottomThickness">Thickness (t, mm)</label>
+                                <input type="text" id="bottomThickness" class="dim-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="standardSectionOptions" class="hidden">
+                    <!-- Standard selector for I/Channel -->
+                    <div class="dropdown-group">
+                        <select id="sectionCategoryDropdown" class="dropdown">
+                            <option value="">Select Category</option>
+                        </select>
+                        <select id="sectionDesignationDropdown" class="dropdown" disabled>
+                            <option value="">Select Designation</option>
+                        </select>
+                    </div>
+
+                    <label class="non-standard-check">
+                        <input type="checkbox" id="sectionManualCheckbox"> Manual input for section
+                    </label>
+
+                    <!-- Manual inputs for I/Channel sections -->
+                    <div id="sectionManualInputs" class="manual-inputs hidden">
+                        <!-- I-Section Manual Inputs -->
+                        <div id="iSectionManual" class="hidden">
+                            <div class="input-group">
+                                <label for="iHeight">Height (H, mm)</label>
+                                <input type="text" id="iHeight" class="dim-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="iFlangeWidth">Flange Width (B, mm)</label>
+                                <input type="text" id="iFlangeWidth" class="dim-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="iWebThickness">Web Thickness (tw, mm)</label>
+                                <input type="text" id="iWebThickness" class="dim-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="iFlangeThickness">Flange Thickness (tf, mm)</label>
+                                <input type="text" id="iFlangeThickness" class="dim-input">
+                            </div>
+                        </div>
+
+                        <!-- Channel Manual Inputs -->
+                        <div id="channelManual" class="hidden">
+                            <div class="input-group">
+                                <label for="cHeight">Height (H, mm)</label>
+                                <input type="text" id="cHeight" class="dim-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="cFlangeWidth">Flange Width (B, mm)</label>
+                                <input type="text" id="cFlangeWidth" class="dim-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="cWebThickness">Web Thickness (tw, mm)</label>
+                                <input type="text" id="cWebThickness" class="dim-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="cFlangeThickness">Flange Thickness (tf, mm)</label>
+                                <input type="text" id="cFlangeThickness" class="dim-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Reinforcement options -->
+                <div class="reinforcement-options">
+                    <label class="reinforcement-check">
+                        <input type="checkbox" id="webReinforcementCheckbox"> Web Plate Reinforcement
+                    </label>
+                    <label class="reinforcement-check">
+                        <input type="checkbox" id="flangeReinforcementCheckbox"> Flange Plate Reinforcement
+                    </label>
+                </div>
+            </div>
+
+            <!-- Web reinforcement inputs -->
+            <div id="webReinforcementInputs" class="reinforcement-inputs hidden">
+                <h4>Web Plate Reinforcement</h4>
+                <div class="input-group">
+                    <label for="webThickness">Thickness (mm)</label>
+                    <input type="text" id="webThickness" class="dim-input">
+                </div>
+                <div class="input-group">
+                    <label for="webHeight">Height (mm)</label>
+                    <input type="text" id="webHeight" class="dim-input">
+                </div>
+            </div>
+
+            <!-- Flange reinforcement inputs -->
+            <div id="flangeReinforcementInputs" class="reinforcement-inputs hidden">
+                <h4>Flange Plate Reinforcement</h4>
+                <div class="input-group">
+                    <label for="flangeThickness">Thickness (mm)</label>
+                    <input type="text" id="flangeThickness" class="dim-input">
+                </div>
+                <div class="input-group">
+                    <label for="flangeWidth">Width (mm)</label>
+                    <input type="text" id="flangeWidth" class="dim-input">
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="calculateBtn" class="calculate-button">Calculate Properties</button>
+            </div>
+        </div>
+
+        <div class="output-container hidden" id="outputContainer">
+            <h3>Calculated Properties</h3>
+            <div id="outputContent"></div>
+        </div>
+    </main>
+
+<!-- Engineering Disclaimer -->
+<div class="engineering-disclaimer">
+    <div class="disclaimer-content">
+        <h3>Engineering Application Notes</h3>
+        <ul>
+            <li>🔹 <strong>Standard sections</strong>: Properties are exact values from IS:808 database</li>
+            <li>🔹 <strong>Built-up sections</strong>: Calculations use rectangular approximation ignoring fillets, tapers, and welds</li>
+            <li>🔹 <strong>Reinforcements</strong>: Assumes perfect bonding between components</li>
+            <li>🔹 <strong>Output values</strong>: Provide conservative estimates for preliminary design</li>
+            <li>🔹 <strong>Design application</strong>: For final structural design, apply appropriate safety factors and verify with detailed FEA</li>
+        </ul>
+        <p class="disclaimer-footnote">Note: This tool approximates compound section properties using first principles of mechanics. Actual performance may vary based on manufacturing tolerances, connection details, and material properties.</p>
+    </div>
+</div>
+
+
+    <footer class="app-footer">
+        © Structural Design Department, EDD, BSP. Unauthorized use or distribution prohibited without department approval.
+    </footer>
+
+    <script src="js/Istandard.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+<!-- MD5 Signed 25f5ab74ba329a63178acf867e454ca0 -->
