@@ -708,3 +708,39 @@ body {
     padding-top: 10px;
     margin-bottom: 0;
 }
+.rotation-control {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+}
+
+.attached-leg-text {
+    margin-bottom: 5px;
+    color: #6c757d;
+}
+
+.rotate-button {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.rotate-button:hover {
+    background-color: #0b5ed7;
+}
+
+/* Add to style.css */
+.output-note {
+    background-color: #e6f7ff;
+    color: green;
+	border-left: 4px solid #1890ff;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-size: 16px;
+}
